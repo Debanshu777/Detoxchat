@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".StartActivity">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:src="@drawable/Logo"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="Log In"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/colorPrimary"
+        android:id="@+id/login"
+        android:background="@drawable/button_background"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="Register"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/colorPrimary"
+        android:id="@+id/register"
+        android:background="@drawable/button_background"/>
+
+</LinearLayout>

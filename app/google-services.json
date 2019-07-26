@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "424019925630",
+    "firebase_url": "https://detoxproject-9d56b.firebaseio.com",
+    "project_id": "detoxproject-9d56b",
+    "storage_bucket": "detoxproject-9d56b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:424019925630:android:24ce4ef99969196a",
+        "android_client_info": {
+          "package_name": "com.example.chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "424019925630-ucd99ne3qoqpc9hcm1uo56nd4kqmvq88.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chat",
+            "certificate_hash": "24dc74eef9cba8aadef338bdf9ba34afa452be9d"
+          }
+        },
+        {
+          "client_id": "424019925630-emde6t8lds5avqldslalm5qkqoof3ooq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDP_rOhdIa8r4SEKCCAkKPuLjpcJjXl6Iw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "424019925630-emde6t8lds5avqldslalm5qkqoof3ooq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
