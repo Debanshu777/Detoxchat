@@ -3,4 +3,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="aise_he">Here, in the ImageView you can find one attribute called layout_collapseMode which is used to define the collapse mode of the image when the scrolling task is performed. We have used Parallax mode for the ImageView and Pin mode for Toolbar. Also, you can use layout_collapseParallaxMultiplier to define what part (percentage) of Image CollapsingToolbarActivity.kt file:</string>
+
 </resources>
