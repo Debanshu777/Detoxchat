@@ -12,14 +12,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.chat.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText username,password;
+    EditText email,password;
     Button login;
     TextView txt_signup;
 
@@ -28,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        username=findViewById(R.id.username);
+        email=findViewById(R.id.email);
         password=findViewById(R.id.password);
         login=findViewById(R.id.login);
         txt_signup=findViewById(R.id.txt_signup);
@@ -44,11 +50,11 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String str_username=username.getText().toString();
+                String str_username=email.getText().toString();
                 String str_password=password.getText().toString();
                 if(TextUtils.isEmpty(str_username) || TextUtils.isEmpty(str_password))
                 {
-                    username.setError("This field cannot be empty");
+                    email.setError("This field cannot be empty");
                     password.setError("This field cannot be empty");
                 }
                 else
@@ -59,14 +65,28 @@ public class LoginActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if(task.isSuccessful())
                                     {
-                                        Intent intent=new Intent(LoginActivity.this,MainActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(intent);
-                                        finish();
+                                        DatabaseReference reference= FirebaseDatabase.getInstance().getReference().child("Users")
+                                                .child(auth.getCurrentUser().getUid());
+                                        reference.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                startActivity(intent);
+                                                finish();
+
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                            }
+                                        });
+
                                     }
                                     else
                                     {
-                                        username.setError("Username or Password Don't Match");
+                                        email.setError("Email or Password Don't Match");
                                         password.setError("");
                                         Toast.makeText(LoginActivity.this, "Authentication Failed!", Toast.LENGTH_SHORT).show();
                                     }

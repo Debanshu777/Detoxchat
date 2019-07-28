@@ -7,14 +7,11 @@
     android:orientation="vertical"
     tools:context=".RegisterActivity">
 
-    <include android:id="@+id/toolbar"
-        layout="@layout/bar_layout"/>
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="40dp"
     android:orientation="vertical"
-    android:layout_below="@id/toolbar"
     android:gravity="center_horizontal">
     <ImageView
         android:layout_width="wrap_content"
@@ -68,6 +65,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
         android:text="Already have an account? Log in!"
         android:id="@+id/txt_login"
         android:layout_marginTop="15dp"/>

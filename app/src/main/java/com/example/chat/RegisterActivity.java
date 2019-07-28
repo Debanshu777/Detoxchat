@@ -37,13 +37,6 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
-        Toolbar toolbar=findViewById(R.id.toolbar);
-        getSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Sign Up");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        setContentView(R.layout.activity_register);
         username=findViewById(R.id.username);
         fullname=findViewById(R.id.fullname);
         email=findViewById(R.id.email);
@@ -86,10 +79,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void getSupportActionBar(Toolbar toolbar) {
-    }
-
     private void register(final String username, final String fullname, String email, String password)
     {
         auth.createUserWithEmailAndPassword(email,password)
@@ -106,9 +95,10 @@ public class RegisterActivity extends AppCompatActivity {
 
                         HashMap<String,String> hashMap=new HashMap<>();
                         hashMap.put("id",userid);
-                        hashMap.put("Username",username);
+                        hashMap.put("Username",username.toLowerCase());
                         hashMap.put("Fullname",fullname);
-                        hashMap.put("ImageURL","default");
+                        hashMap.put("ImageURL","https://firebasestorage.googleapis.com/v0/b/detoxproject-9d56b.appspot.com/o/icon.png?alt=media&token=656980ab-d915-48d4-a665-d3cd3c6a3d9e");
+                        hashMap.put("bio","");
 
                         reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -125,7 +115,7 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        Toast.makeText(RegisterActivity.this, "You Can't Register Wrong UserNme or Password", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, "You Can't Register With this  Email or Password", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
