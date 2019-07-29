@@ -7,9 +7,9 @@
         android:title=""
         />
 
-    <item android:id="@+id/notification"
+    <item android:id="@+id/person"
         android:title=""
-        android:icon="@drawable/ic_noti"
+        android:icon="@drawable/ic_person"
       />
 
 
