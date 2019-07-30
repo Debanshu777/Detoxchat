@@ -31,6 +31,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
 
+    BottomNavigationView bottomNavigationView;
     CircleImageView profile_pic;
     FloatingActionButton fab1,fab2,fab3,fab4,fab5;
     Fragment selctedfragment=null;
@@ -41,42 +42,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         profile_pic=findViewById(R.id.profile_pic);
-        fab1=findViewById(R.id.fab1);
-        fab2=findViewById(R.id.fab2);
-        fab3=findViewById(R.id.fab3);
-        fab4=findViewById(R.id.fab4);
-        fab5=findViewById(R.id.fab5);
-        final Fragment[] selectedFragment = {null};
-        fab1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedFragment[0] =new HomeFragment();
-            }
-        });
-        fab2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedFragment[0] =new SearchFragment();
-            }
-        });
-        fab3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedFragment[0] =new AddFragment();
-            }
-        });
-        fab4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedFragment[0] =new NotificatonFragment();
-            }
-        });
-        fab5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        bottomNavigationView=findViewById(R.id.bottom);
+        bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
 
-            }
-        });
         firebaseuser=FirebaseAuth.getInstance().getCurrentUser();
         reference= FirebaseDatabase.getInstance().getReference().child(firebaseuser.getUid());
         reference.addValueEventListener(new ValueEventListener() {
@@ -101,7 +70,32 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    }
+        }
+        private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener=
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                        switch (menuItem.getItemId())
+                        {
+                            case R.id.home:
+                                selctedfragment=new HomeFragment();
+                                break;
+
+                            case R.id.search:
+                                selctedfragment=new SearchFragment();
+                                break;
+
+                            case R.id.person:
+                                selctedfragment=new AddFragment();
+                                break;
+                        }
+                        if(selctedfragment!=null)
+                        {
+                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selctedfragment).commit();
+                        }
+                        return true;
+                    }
+                };
 
 
 }
