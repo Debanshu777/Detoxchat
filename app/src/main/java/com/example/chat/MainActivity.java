@@ -1,22 +1,20 @@
 package com.example.chat;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.bumptech.glide.Glide;
-import com.example.chat.Fragment.AddFragment;
 import com.example.chat.Fragment.HomeFragment;
-import com.example.chat.Fragment.NotificatonFragment;
+import com.example.chat.Fragment.ProfileFragment;
 import com.example.chat.Fragment.SearchFragment;
 import com.example.chat.Model.User;
-import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     CircleImageView profile_pic;
-    FloatingActionButton fab1,fab2,fab3,fab4,fab5;
+    FloatingActionButton fab,fab2,fab3,fab4,fab5;
     Fragment selctedfragment=null;
     FirebaseUser firebaseuser;
     DatabaseReference reference;
@@ -41,11 +39,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        profile_pic=findViewById(R.id.profile_pic);
+        //profile_pic=findViewById(R.id.profile_pic);
         bottomNavigationView=findViewById(R.id.bottom);
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
-
+        fab=findViewById(R.id.fab);
         firebaseuser=FirebaseAuth.getInstance().getCurrentUser();
         reference= FirebaseDatabase.getInstance().getReference().child(firebaseuser.getUid());
         reference.addValueEventListener(new ValueEventListener() {
@@ -54,11 +52,11 @@ public class MainActivity extends AppCompatActivity {
                 User user=dataSnapshot.getValue(User.class);
                 if(user.getImageURL().equals("default"))
                 {
-                    profile_pic.setImageResource(R.drawable.ic_person);
+                    //profile_pic.setImageResource(R.drawable.ic_person);
                 }
                 else
                 {
-                    Glide.with(MainActivity.this).load(user.getImageURL()).into(profile_pic);
+                    //Glide.with(MainActivity.this).load(user.getImageURL()).into(profile_pic);
                 }
             }
 
@@ -67,7 +65,12 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this,PostActivity.class));
+            }
+        });
 
 
         }
@@ -86,7 +89,11 @@ public class MainActivity extends AppCompatActivity {
                                 break;
 
                             case R.id.person:
-                                selctedfragment=new AddFragment();
+                                SharedPreferences.Editor editor=getSharedPreferences("PREFS",MODE_PRIVATE).edit();
+                                editor.putString("profileid",FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                editor.apply();
+                                selctedfragment=
+                                selctedfragment=new ProfileFragment();
                                 break;
                         }
                         if(selctedfragment!=null)

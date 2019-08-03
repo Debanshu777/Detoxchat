@@ -23,6 +23,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 public class LoginActivity extends AppCompatActivity {
 
     EditText email,password;
@@ -66,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                                     if(task.isSuccessful())
                                     {
                                         DatabaseReference reference= FirebaseDatabase.getInstance().getReference().child("Users")
-                                                .child(auth.getCurrentUser().getUid());
+                                                .child(Objects.requireNonNull(auth.getCurrentUser()).getUid());
                                         reference.addValueEventListener(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
