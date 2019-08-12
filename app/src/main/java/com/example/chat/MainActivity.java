@@ -25,13 +25,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
-    CircleImageView profile_pic;
-    FloatingActionButton fab,fab2,fab3,fab4,fab5;
+    FloatingActionButton fab;
     Fragment selctedfragment=null;
     FirebaseUser firebaseuser;
     DatabaseReference reference;
@@ -44,35 +45,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
         fab=findViewById(R.id.fab);
-        firebaseuser=FirebaseAuth.getInstance().getCurrentUser();
-        reference= FirebaseDatabase.getInstance().getReference().child(firebaseuser.getUid());
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user=dataSnapshot.getValue(User.class);
-                if(user.getImageURL().equals("default"))
-                {
-                    //profile_pic.setImageResource(R.drawable.ic_person);
-                }
-                else
-                {
-                    //Glide.with(MainActivity.this).load(user.getImageURL()).into(profile_pic);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this,PostActivity.class));
-            }
-        });
-
-
         }
         private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener=
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -90,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
                             case R.id.person:
                                 SharedPreferences.Editor editor=getSharedPreferences("PREFS",MODE_PRIVATE).edit();
-                                editor.putString("profileid",FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                editor.putString("profileid", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
                                 editor.apply();
                                 selctedfragment=
                                 selctedfragment=new ProfileFragment();

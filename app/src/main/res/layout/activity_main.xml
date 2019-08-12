@@ -30,7 +30,8 @@
             android:fadingEdge="vertical"
             app:itemIconTint="@color/selector"
             app:itemIconSize="35dp"
-            app:menu="@menu/bottom_nav">
+            app:menu="@menu/bottom_nav"
+            android:focusable="true">
 
         </com.google.android.material.bottomnavigation.BottomNavigationView>
         <com.google.android.material.bottomnavigation.BottomNavigationView

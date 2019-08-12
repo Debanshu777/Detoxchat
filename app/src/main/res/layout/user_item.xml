@@ -36,14 +36,15 @@
             android:textStyle="bold|italic"
             android:textColor="@color/colorPrimaryDark"
             />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:background="@drawable/button_background"
-            android:id="@+id/follow"
-            android:textColor="@color/colorPrimary"
-            android:visibility="gone"/>
     </LinearLayout>
-
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:background="@drawable/button_background"
+        android:id="@+id/btn_follow"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:textColor="@color/colorPrimary"
+        android:visibility="gone"/>
 
 </RelativeLayout>

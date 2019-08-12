@@ -1,8 +1,5 @@
 package com.example.chat.Fragment;
 
-import android.app.DownloadManager;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,7 +16,7 @@ import android.widget.EditText;
 
 import com.example.chat.Model.User;
 import com.example.chat.R;
-import com.example.chat.UserAdapder;
+import com.example.chat.Adapter.UserAdapder;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,7 +42,7 @@ public class SearchFragment extends Fragment {
         recyclerView=view.findViewById(R.id.recycle_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        search_bar=view.findViewById(R.id.seacrch_bar);
+        search_bar=view.findViewById(R.id.search_bar);
         mUser=new ArrayList<>();
         userAdapder=new UserAdapder(getContext(),mUser);
         recyclerView.setAdapter(userAdapder);
@@ -77,7 +74,7 @@ public void searchUser(String s) {
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             mUser.clear();
             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                User user = (User) snapshot.getValue(User.class);
+                User user = snapshot.getValue(User.class);
                 mUser.add(user);
             }
             userAdapder.notifyDataSetChanged();
@@ -101,7 +98,7 @@ public void searchUser(String s) {
                     mUser.clear();
                     for(DataSnapshot snapshot:dataSnapshot.getChildren())
                     {
-                        User user = (User) snapshot.getValue(User.class);
+                        User user = snapshot.getValue(User.class);
                         mUser.add(user);
                     }
 

@@ -1,4 +1,4 @@
-package com.example.chat;
+package com.example.chat.Adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.chat.Fragment.ProfileFragment;
 import com.example.chat.Model.User;
+import com.example.chat.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -27,7 +28,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class UserAdapder extends RecyclerView.Adapter<UserAdapder.Viewholder> {
+public class  UserAdapder extends RecyclerView.Adapter<UserAdapder.Viewholder> {
 
     private Context mContext;
     private List<User> mUser;
@@ -51,40 +52,40 @@ public class UserAdapder extends RecyclerView.Adapter<UserAdapder.Viewholder> {
 
         firebaseuser= FirebaseAuth.getInstance().getCurrentUser();
         final User user=mUser.get(position);
-        holder.follow.setVisibility(View.VISIBLE);
+        holder.btn_follow.setVisibility(View.VISIBLE);
         holder.username.setText(user.getUsername());
-        holder.fullaname.setText(user.getFullname());
+        holder.fullname.setText(user.getFullname());
         Glide.with(mContext).load(user.getImageURL()).into(holder.image_profile);
-        isFollowing(user.getId(),holder.follow);
-        if(user.getId().equals(FirebaseAuth.getInstance()))
+        isFollowing(user.getId(),holder.btn_follow);
+        if(user.getId().equals(firebaseuser.getUid()))
         {
-            holder.follow.setVisibility(View.GONE);
+            holder.btn_follow.setVisibility(View.GONE);
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences.Editor editor= (SharedPreferences.Editor) mContext.getSharedPreferences("PREPS",Context.MODE_PRIVATE).edit();
+                SharedPreferences.Editor editor= mContext.getSharedPreferences("PREPS",Context.MODE_PRIVATE).edit();
                 editor.putString("profileid",user.getId());
                 editor.apply();
                 ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new ProfileFragment()).commit();
             }
         });
-        holder.follow.setOnClickListener(new View.OnClickListener() {
+        holder.btn_follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(holder.follow.getText().toString().equals("Follow"))
+                if(holder.btn_follow.getText().toString().equals("Follow"))
                 {
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseuser.getUid())
                             .child("Following").child(user.getId()).setValue(true);
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(user.getId())
-                            .child("Following").child(firebaseuser.getUid()).setValue(true);
+                            .child("Followers").child(firebaseuser.getUid()).setValue(true);
                 }
                 else
                 {
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseuser.getUid())
                             .child("Following").child(user.getId()).removeValue();
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(user.getId())
-                            .child("Following").child(firebaseuser.getUid()).removeValue();
+                            .child("Followers").child(firebaseuser.getUid()).removeValue();
 
                 }
             }
@@ -100,22 +101,22 @@ public class UserAdapder extends RecyclerView.Adapter<UserAdapder.Viewholder> {
     public class Viewholder extends RecyclerView.ViewHolder {
 
         public TextView username;
-        public TextView fullaname;
+        public TextView fullname;
         public CircleImageView image_profile;
-        public Button follow;
+        public Button btn_follow;
 
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
             username=itemView.findViewById(R.id.username);
-            fullaname=itemView.findViewById(R.id.fullname);
+            fullname=itemView.findViewById(R.id.fullname);
             image_profile=itemView.findViewById(R.id.image_profile);
-            follow=itemView.findViewById(R.id.follow);
+            btn_follow=itemView.findViewById(R.id.btn_follow);
         }
     }
     private void isFollowing(final String userId, final Button button){
         DatabaseReference reference= FirebaseDatabase.getInstance().getReference()
-                .child("Follow").child(firebaseuser.getUid()).child("following");
+                .child("Follow").child(firebaseuser.getUid()).child("Following");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
